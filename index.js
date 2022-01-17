@@ -12,6 +12,7 @@ app.use(express.static('public'))
 //Controllers & Routes
 app.use('/places', require('./controllers/places'))
 
+
 // GET /places
 app.get('/', (req, res) => {
     res.render('Home')

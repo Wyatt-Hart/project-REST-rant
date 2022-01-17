@@ -20,7 +20,7 @@ function Index(data){
         <Def>
             <main>
                 <h1>Places Index Page</h1>
-                <div className='row'>
+                <div className='row' style={{textAlign: 'center'}}>
                     {placesFormatted}
                 </div>
             </main>
