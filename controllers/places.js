@@ -8,9 +8,8 @@ router.get('/new', (req,res) =>{
 
 // POST /places/new
 router.post('/', (req, res) =>{
-    console.log(req.body)
     if(!req.body.pic){
-        req.body.pic = 'http://placekitten.com/400/400'
+        req.body.pic = 'http://placekitten.com/428/285'
     }
     if(!req.body.city){
         req.body.city = 'Anytown'
