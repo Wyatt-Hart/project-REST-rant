@@ -9,7 +9,7 @@ function Def (html){
                 <link rel='stylesheet' href='/CSS/style.css'></link>
             </head>
             <nav style={{textAlign: 'left', position: 'fixed', width: '100vw', top: '0vh'}}>
-                    <h2 style={{display: 'inline-block', color: 'white'}}>REST-Rant  |</h2>
+                    <h2 style={{display: 'inline-block'}}>REST-Rant  |</h2>
                     <ul style={{display: 'inline-block'}}>
                         <li><a href='/'>Home</a></li>
                         <li><a href='/places'>Places</a></li>
@@ -20,6 +20,11 @@ function Def (html){
                 
                 {html.children}
             </body>
+            <footer>
+                <div>
+                    <p>This site was created by <a href='http://www.github.com/Wyatt-Hart'>Wyatt C. Hart</a></p>
+                </div>
+            </footer>
         </html>
     )
 }

@@ -18,6 +18,9 @@ router.post('/', (req, res) =>{
     if(!req.body.state){
         req.body.state = 'USA'
     }
+    if(!req.body.website){
+        req.body.website = 'https://www.google.com/search?q=' + req.body.name
+    }
     places.push(req.body)
     res.redirect('/places')
 })
@@ -54,6 +57,9 @@ router.put('/:id', (req, res) => {
         }
         if(!req.body.state){
             req.body.state = 'USA'
+        }
+        if(!req.body.website){
+            req.body.website = 'https://www.google.com/search?q=' + req.body.name
         }
         places[id] = req.body
         res.redirect(`/places/${id}`)
