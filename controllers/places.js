@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const res = require('express/lib/response')
 const places = require('../models/places.js')
+const db = require('../models')
 
 // GET /places/new
 router.get('/new', (req,res) =>{
@@ -21,8 +22,14 @@ router.post('/', (req, res) =>{
     if(!req.body.website){
         req.body.website = 'https://www.google.com/search?q=' + req.body.name
     }
-    places.push(req.body)
-    res.redirect('/places')
+    db.Place.create(req.body)
+        .then(() => {
+            res.redirect('/places')
+        })
+        .catch(err => {
+            console.log('err', err)
+            res.render('error404')
+        })
 })
 
 //EDIT
@@ -68,21 +75,27 @@ router.put('/:id', (req, res) => {
 
 //SHOW
 router.get('/:id', (req, res) => {
-    let id = Number(req.params.id)
-    if (isNaN(id)) {
-        res.render('error404')
-    }
-    else if(!places[id]){
-        res.render('error404')
-    }
-    else{
-        res.render('places/show', { place: places[id], id })
-    }
+    db.Place.findById(req.params.id)
+        .then(place => {
+            res.render('places/show', { place })
+        })
+        .catch(err => {
+            console.log('err', err)
+            res.render('error404')
+        })
 })
 
 //DELETE
 router.delete('/:id', (req, res) => {
-    let id = Number(req.params.id)
+    db.Place.findByIdAndDelete(req.params.id)
+        .then(()=>{
+            res.redirect('/places')
+        })
+        .catch(err => {
+            console.log('err', err)
+            res.render('error404')
+        })
+    /* let id = Number(req.params.id)
     if (isNaN(id)) {
         res.render('error404')
     }
@@ -92,12 +105,19 @@ router.delete('/:id', (req, res) => {
     else {
         places.splice(id, 1)
         res.redirect('/places')
-    }
+    } */
 })
 
 // GET /places
 router.get('/', (req,res) => {
-    res.render('places/index', {places})
+    db.Place.find()
+        .then((places) => {
+            res.render('places/index', { places })
+        })
+        .catch(err => {
+            console.log(err)
+            res.render('error404')
+        })
 })
 
 module.exports = router

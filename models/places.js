@@ -1,4 +1,17 @@
-module.exports = [
+const mongoose = require('mongoose')
+
+const placeSchema = new mongoose.Schema({
+    name:       {type: String, required: true},
+    pic:        String,
+    cuisines:   {type: String, required: true},
+    city:       {type: String, default: 'Anytown'},
+    state:      {type: String, required: true},
+    founded:    Number,
+    website:    String
+})
+module.exports = mongoose.model('Place', placeSchema)
+
+/* module.exports = [
     {
         name: "Socrates' Falafelry",
         city: 'Brooklyn',
@@ -14,4 +27,4 @@ module.exports = [
         pic: '/images/coffee.jpg',
         website: 'https://wyatt-hart.github.io/Restaurant-Menu/index.html'
     }
-]
+] */
