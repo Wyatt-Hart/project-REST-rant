@@ -1,40 +1,64 @@
 const React = require('react')
 const Def = require('../default')
 
-function new_form(){
-	return(
+function new_form(data){
+	let message = ''
+	if (data.message){
+		message = (
+			<h4 className='alert-danger'>
+				{ data.message }
+			</h4>
+		)
+	}
+	
+	let place = {
+		name : '',
+		pic : '',
+		city : '',
+		state : null,
+		cuisines : '',
+		website : ''}
+		
+	if (data.place){
+		place = data.place
+	}
+	return(	
 		<Def>
 			<main>
 				<h1>Add a New Place</h1>
+				{message}
 				<form method='POST' action='/places' style={{textAlign: 'center'}}>
-				<div className='row' style={{marginTop: '3vh'}}>
+				<div className='row' style={{margin: '2vw', marginTop: '3vh'}}>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 						<label htmlFor='name'>Place Name</label>
-						<input className='form-control' id='name' name='name' required/>
+						<input className='form-control' id='name' name='name' defaultValue={place.name} required/>
 					</div>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 						<label htmlFor='pic'>Place Picture</label>
-						<input className='form-control' type={'url'} id='pic' name='pic'/>
+						<input className='form-control' type={'url'} id='pic' name='pic' defaultValue={place.pic}/>
 					</div>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 						<label htmlFor='city'>City</label>
-						<input className='form-control' id='city' name='city'/>
+						<input className='form-control' id='city' name='city' defaultValue={place.city}/>
 					</div>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 						<label htmlFor='state'>State</label>
-						<select className='form-control' id="state" name="state"><option value="Select a State">Select a State</option><option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="DC">DC</option><option value="FL">FL</option><option value="GA">GA</option><option value="GU">GU</option><option value="HI">HI</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option><option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="CM">CM</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="PR">PR</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option><option value="VI">VI</option><option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option></select>
+						<select className='form-control' id="state" name="state"  defaultValue={place.state} required>
+							<option selected='true' disabled>Select a State</option>
+								<option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="DC">DC</option><option value="FL">FL</option><option value="GA">GA</option><option value="GU">GU</option><option value="HI">HI</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option><option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="CM">CM</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="PR">PR</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option><option value="VI">VI</option><option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option>
+						</select>
 					</div>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 							<label htmlFor='cuisines'>Cuisines</label>
-							<input className='form-control' id='cuisines' name='cuisines' required/>
+							<input className='form-control' id='cuisines' name='cuisines' defaultValue={place.cuisines} required/>
 					</div>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 							<label htmlFor='city'>Website</label>
-							<input className='form-control' type={'url'} id='website' name='website'/>
+							<input className='form-control' type={'url'} id='website' name='website' defaultValue={place.website}/>
 					</div>
 					<div className='form-group col-sm-6 col-md-4 col-lg-3'style={{marginTop: '3vh'}}>
 						<label htmlFor='founded'>Founded Year</label>
-						<input className='form-control' id='founded' name='founded' />
+						<input className='form-control' id='founded' name='founded' defaultValue={new Date().getFullYear()} />
 					</div>
 				</div>
 				<div style={{display: 'flex', margin: 'auto', justifyContent: 'center', marginTop: '3vh'}} >

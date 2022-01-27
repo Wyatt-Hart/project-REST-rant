@@ -10,13 +10,13 @@ router.get('/new', (req,res) =>{
 
 // POST /places/new
 router.post('/', (req, res) =>{
-    if(!req.body.pic){
+    if(req.body.pic === ''){
         req.body.pic = 'http://placekitten.com/428/285'
     }
     if(!req.body.city){
         req.body.city = 'Anytown'
     }
-    if(!req.body.state){
+    if(!req.body.state || req.body.state ===''){
         req.body.state = 'USA'
     }
     if(!req.body.website){
@@ -27,8 +27,17 @@ router.post('/', (req, res) =>{
             res.redirect('/places')
         })
         .catch(err => {
-            console.log('err', err)
-            res.render('error404')
+            if(err && err.name == 'ValidationError'){
+                let message = ''
+                for(var field in err.errors) {
+                    message += `${err.errors[field].message}`
+                }
+                console.log('Validation error message', message)
+
+                res.render('places/new', { message: message, place: req.body })
+            }else {
+                res.render('error404')
+            }
         })
 })
 
@@ -56,9 +65,6 @@ router.put('/:id', (req, res) => {
         res.render('error404')
     }
     else {
-        if(!req.body.pic){
-            req.body.pic = 'http://placekitten.com/428/285'
-        }
         if(!req.body.city){
             req.body.city = 'Anytown'
         }
@@ -95,17 +101,6 @@ router.delete('/:id', (req, res) => {
             console.log('err', err)
             res.render('error404')
         })
-    /* let id = Number(req.params.id)
-    if (isNaN(id)) {
-        res.render('error404')
-    }
-    else if(!places[id]){
-        res.render('error404')
-    }
-    else {
-        places.splice(id, 1)
-        res.redirect('/places')
-    } */
 })
 
 // GET /places

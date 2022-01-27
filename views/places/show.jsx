@@ -10,13 +10,22 @@ function show (data) {
                 </a>
                 <div style={ {width: '40vw', display: 'inline-block'} }>
                     <img src={data.place.pic} alt={data.place.name}/>
+                    <h3>
+                        Located in {data.place.city}, {data.place.state}
+                    </h3>
                 </div>
-                <div style={ {width: '50vw', display: 'inline-block'} }>
+                <div style={ {width: '50vw', top: '-2vw', position: 'relative', display: 'inline-block'} }>
                 <h2>Rating</h2>
                     <p>Not Rated</p>
-                    <h2>Description</h2>
-                    <p>{ data.place.cuisines } located in { data.place.city }, { data.place.state }</p>
-                    <p>Est. { data.place.founded }</p>
+                    <h2>
+                        Description
+                    </h2>
+                    <h3 style={{fontSize: '1.2rem'}}>
+                        {data.place.showEstablished()}
+                    </h3>
+                    <h4 style={{fontSize: '1rem'}}>
+                        Serving { data.place.cuisines }
+                    </h4>
                     <a href={`/places/${data.place.id}/edit`} className='btn btn-warning' style={ {display: 'inline-block', marginRight: '5vw'} }>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
                         <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
