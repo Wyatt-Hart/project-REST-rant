@@ -11,7 +11,8 @@ const placeSchema = new mongoose.Schema({
                     min: [1673, 'Invalid Year Entered: Value too low'],
                     max: [new Date().getFullYear(), 'Invalid year entered: Enter a year before ' + (new Date().getFullYear())]
                 },
-    website:    String
+    website:    String,
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
 placeSchema.methods.showEstablished = function() {
