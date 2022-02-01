@@ -10,7 +10,7 @@ function show (data) {
     if (data.place.comments.length) {
         comments = data.place.comments.map(c => {
             return(
-                <div className='border'>
+                <div className='border col-sm-6 col-md-4 col-lg-3' key={c.id}>
                     <h3 className='rant'>{c.rant ? 'Rant!' : 'Rave!'}</h3>
                     <h4>{c.content}</h4>
                     <h3>
@@ -60,7 +60,29 @@ function show (data) {
                     </form>
                 </div>
                 <h2>Comments</h2>
-                {comments}
+                <div className='row' style={{ justifyContent: 'space-around', margin: 'auto' }}>
+                    {comments}
+                </div>
+                <form style={{justifyContent: 'space-around'}} method='POST' action={`/places/${data.place.id}/comment`}>
+                    <label htmlFor='content'>Comment</label>
+                    <textarea id='content' className='form-control' style={{maxWidth: '75vw', margin: "auto"}} rows='3' type='text' name='content'/>
+
+                    <span style={{display: 'inline-block'}} className='form-group col-sm-6 col-md-4 col-lg-3'>
+                        <label style={{marginRight: '0.5 vw'}}  htmlFor='author'>Author</label>
+                        <input id='author' type='text' name='author'/>
+                    </span>
+
+                    <span style={{display: 'inline-block'}} className='form-group col-sm-6 col-md-4 col-lg-3'>
+                        <label className='form-group col-sm-6 col-md-4 col-lg-3' htmlFor='stars' className='form-label'>Star Rating</label>
+                        <input id='stars' type='range' className='form-range' min='0.5' max='5' step='0.5' style={{height: '100%', width: '10vw'}} name='stars'/>
+                    </span>
+                    
+                    <span style={{display: 'inline-block'}} className='form-group col-sm-6 col-md-4 col-lg-3'>
+                        <label htmlFor='rant'>Rant</label>
+                        <input style={{transform: "scale(1.5)",margin: "1vw"}} id='rant' type='checkbox' name='rant'/>
+                    </span>
+					<input className='btn btn-primary' style={{display: 'block', margin: 'auto'}} type={'submit'} value={'Comment'} />
+                </form>
             </main>
         </Def>
     )
