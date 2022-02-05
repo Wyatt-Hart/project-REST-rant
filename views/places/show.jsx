@@ -1,3 +1,4 @@
+const req = require('express/lib/request')
 const React = require('react')
 const Def = require('../default')
 
@@ -7,16 +8,41 @@ function show (data) {
             No comments yet!
         </h3>
     )
+    let rating = (
+        <h3 className='inactive'>
+            Not yet rated
+        </h3>
+    )
+    if (data.place.comments.length) {
+        let sumRatings = data.place.comments.reduce((tot, c) => {
+            return tot + c.stars
+        }, 0)
+        let averageRating = Math.round(sumRatings / data.place.comments.length)
+        let stars = ''
+        for (let i = 0; i < averageRating; i++){
+            stars += '⭐️'
+        }
+        rating = (
+            <h3>
+                {stars}
+            </h3>
+        )
+    }
     if (data.place.comments.length) {
         comments = data.place.comments.map(c => {
+            
             return(
-                <div className='border col-sm-6 col-md-4 col-lg-3' key={c.id}>
+                <div className='border col-sm-6 col-md-4 col-lg-3' style={{opacity: '0.7', margin: '1vw'}} key={c.id}>
                     <h3 className='rant'>{c.rant ? 'Rant!' : 'Rave!'}</h3>
                     <h4>{c.content}</h4>
                     <h3>
                         <strong style={{fontSize: '1.5rem'}}>-{c.author}</strong>
                     </h3>
                     <h4>Rating: {c.stars}</h4>
+                    <form name='deleteComment' method='POST' action={`/places/${data.place.id}/comment/${c.id}?_method=DELETE`}>
+                        <input type='submit' className='btn btn-danger' value='Delete Comment' />
+                        <input type={'hidden'} name='deleteCommentBtn' value={'Delete Comment Button'} />
+                    </form>
                 </div>
             )
         })
@@ -27,6 +53,8 @@ function show (data) {
                 <a href={ data.place.website }>
                     <h1>{ data.place.name }</h1>
                 </a>
+                <h2>Rating</h2>
+                {rating}
                 <div style={ {width: '40vw', display: 'inline-block'} }>
                     <img src={data.place.pic} alt={data.place.name}/>
                     <h3>
@@ -57,13 +85,14 @@ function show (data) {
                         <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                         </svg> | Delete
                         </button>
+                        <input type={'hidden'} name='deletePlaceBtn' value={'deletePlace'} />
                     </form>
                 </div>
                 <h2>Comments</h2>
-                <div className='row' style={{ justifyContent: 'space-around', margin: 'auto' }}>
+                <div className='row' style={{ justifyContent: 'space-around', margin: 'auto', backgroundColor: '#C5C5C5', width: '95%' }}>
                     {comments}
                 </div>
-                <form style={{justifyContent: 'space-around'}} method='POST' action={`/places/${data.place.id}/comment`}>
+                <form style={{justifyContent: 'space-around', width: '95%'}} method='POST' action={`/places/${data.place.id}/comment`}>
                     <label htmlFor='content'>Comment</label>
                     <textarea id='content' className='form-control' style={{maxWidth: '75vw', margin: "auto"}} rows='3' type='text' name='content'/>
 

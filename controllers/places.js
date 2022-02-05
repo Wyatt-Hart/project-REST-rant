@@ -67,21 +67,26 @@ router.post('/:id/comment', (req, res) => {
 
 //EDIT
 router.get('/:id/edit', (req, res) => {
-    let id = Number(req.params.id)
-    if (isNaN(id)) {
-        res.render('error404')
-    }
-    else if(!places[id]){
-        res.render('error404')
-    }
-    else{
-        res.render('places/edit', { place: places[id], id })
-    }
+    db.Place.findById(req.params.id)
+        .then( place => {
+            res.render('places/edit', { place })
+        })
+        .catch ( err => {
+            res.render('error404')
+        })
 })
 
 //PUT
 router.put('/:id', (req, res) => {
-    let id = Number(req.params.id)
+    db.Place.findByIdAndUpdate(req.params.id, req.body)
+        .then(() => {
+            res.redirect(`/places/${req.params.id}`)
+        })
+        .catch( err => {
+            console.log('err', err)
+            res.render('error404')
+        })
+    /* let id = Number(req.params.id)
     if (isNaN(id)) {
         res.render('error404')
     }
@@ -100,7 +105,7 @@ router.put('/:id', (req, res) => {
         }
         places[id] = req.body
         res.redirect(`/places/${id}`)
-    }
+    } */
 })
 
 //SHOW
@@ -119,14 +124,31 @@ router.get('/:id', (req, res) => {
 
 //DELETE
 router.delete('/:id', (req, res) => {
-    db.Place.findByIdAndDelete(req.params.id)
-        .then(()=>{
-            res.redirect('/places')
-        })
-        .catch(err => {
-            console.log('err', err)
-            res.render('error404')
-        })
+    if(req.body.deletePlaceBtn == 'deletePlace'){
+        db.Place.findByIdAndDelete(req.params.id)
+            .then(place => {
+                res.redirect('/places')
+            })
+            .catch(err => {
+                console.log('err', err)
+                res.render('error404')
+            })
+    }else{
+        res.redirect('error404')
+    }
+})
+router.delete('/:id/comment/:id', (req, res) => {
+    if(req.body.deleteCommentBtn == 'Delete Comment Button'){
+        db.Comment.findByIdAndDelete(req.params.id)
+            .then( data => {
+                res.redirect(req.get('Referer'))
+            })
+            .catch( err => {
+                res.redirect('error404')
+            })
+    }else{
+        res.redirect('error404')
+    }
 })
 
 // GET /places
